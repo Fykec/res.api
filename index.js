@@ -85,16 +85,17 @@ function api(){
   }
   
   function _api (http_code, data, status) {
-    if (_res.is_jsonp && _res.is_jsonp == true) {
-      return _res.status(http_code).jsonp({
+      if (_res.is_jsonp && _res.is_jsonp == true) {
+      var resJson = {
         data    : data,
         status  : status
-      })
+      }
+      if (_res.transform) {
+        resJson = _res.transform(resJson)
+      }          
+      return _res.status(http_code).jsonp(resJson)
     } else {
-      return _res.status(http_code).json({
-        data    : data,
-        status  : status
-      })
+      return _res.status(http_code).json(resJson)
     }
   }
 }

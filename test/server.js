@@ -24,6 +24,19 @@ app.get('/api/user/login1', function(req, res){
   });
 });
 
+app.get('/api/user/login2', function(req, res){
+  // res.send(200, { name: 'tobi' });
+    res.is_jsonp = true;
+    res.transform =  function(resJson) {
+      return {ret: resJson.status.code, msg:resJson.status.msg, val:resJson.data};
+    };
+  
+    return res.api({
+      name: 'login jsonp'
+    });
+});
+
+
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
